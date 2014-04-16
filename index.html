@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.0.1/ng-tags-input.css">
+    <style type="text/css">
+      
+      .tag-item {
+        border-radius: 0px;
+        cursor: default !important;
+      }
+
+      tags-input .tags .tag-item.editing {
+        background-color:rgba(0, 0, 0, 0.5)
+      }
+
+      .input {
+        border: 1px #2badf3 solid !important;
+        width: 400px;
+      }
+
+      tags-input .tags {
+        -webkit-appearance: initial;
+        box-shadow: 0px 0px 0px 0 lightgray inset;
+        border: none !important;
+      }
+
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script src="ngTags.js"></script>
+  
+    <script>
+        var app = angular.module('myApp', ['ngTagsInput'])
+            .controller('MyCtrl', function($scope, $http) {
+                $scope.tags = [
+                    { text: 'just' },
+                    { text: 'some' },
+                    { text: 'cool' },
+                    { text: 'tags' }
+                ];
+                
+            });
+
+        app.directive('ngEnter', function () {
+          return function (scope, element, attrs) {
+              element.bind("keydown keypress", function (event) {
+                  if(event.which === 13) {
+                      scope.$apply(function (){
+                          scope.$eval(attrs.ngEnter);
+                      });
+
+                      event.preventDefault();
+                  }
+              });
+          };
+        });
+
+        app.directive('ngEscape', function () {
+          return function (scope, element, attrs) {
+              element.bind("keydown keypress", function (event) {
+                  if(event.which === 27) {
+                      scope.$apply(function (){
+                          scope.$eval(attrs.ngEscape);
+                      });
+
+                      event.preventDefault();
+                  }
+              });
+          };
+        });
+
+    </script>
+  </head>
+  <body ng-app="myApp" ng-controller="MyCtrl">
+    <tags-input ng-model="tags"></tags-input>
+  </body>
+
+</html>
